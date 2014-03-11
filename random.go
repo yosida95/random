@@ -81,8 +81,8 @@ func (c *chain) add(r *reader) {
 	defer c.Unlock()
 
 	c.readers = append(c.readers, r)
-	c.max = append(c.max, int(c.maxsum))
 	c.maxsum += r.max
+	c.max = append(c.max, int(c.maxsum))
 }
 
 func (c *chain) ReadRune() (rune, int, error) {
