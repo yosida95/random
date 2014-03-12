@@ -9,21 +9,30 @@ import (
 	"sync"
 )
 
-type setflag uint8
+type asciiflag uint8
 
 const (
-	UPPER  setflag = 1 << iota
-	LOWER  setflag = 1 << iota
-	DIGITS setflag = 1 << iota
+	UPPER  asciiflag = 1 << iota
+	LOWER  asciiflag = 1 << iota
+	DIGITS asciiflag = 1 << iota
 )
 
-func String(flag setflag) (r io.RuneReader, err error) {
+func Ascii(flag asciiflag) (r io.RuneReader, err error) {
 	chain, err := newChain()
 	if err != nil {
 		return
 	}
 
-	if flag|DIGITS > 0 {
+	if flag&DIGITS > 0 {
+		r, err := newReader(10, 48)
+		if err != nil {
+			return nil, err
+		}
+
+		chain.add(r)
+	}
+
+	if flag&UPPER > 0 {
 		r, err := newReader(26, 65)
 		if err != nil {
 			return nil, err
@@ -32,16 +41,7 @@ func String(flag setflag) (r io.RuneReader, err error) {
 		chain.add(r)
 	}
 
-	if flag|UPPER > 0 {
-		r, err := newReader(26, 97)
-		if err != nil {
-			return nil, err
-		}
-
-		chain.add(r)
-	}
-
-	if flag|LOWER > 0 {
+	if flag&LOWER > 0 {
 		r, err := newReader(26, 97)
 		if err != nil {
 			return nil, err
