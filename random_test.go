@@ -5,7 +5,7 @@ import (
 )
 
 type asciiTestCase struct {
-	flag  asciiflag
+	flag  AsciiFlag
 	check func(rune) bool
 }
 

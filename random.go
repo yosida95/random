@@ -9,15 +9,15 @@ import (
 	"sync"
 )
 
-type asciiflag uint8
+type AsciiFlag uint8
 
 const (
-	UPPER  asciiflag = 1 << iota
-	LOWER  asciiflag = 1 << iota
-	DIGITS asciiflag = 1 << iota
+	UPPER  AsciiFlag = 1 << iota
+	LOWER  AsciiFlag = 1 << iota
+	DIGITS AsciiFlag = 1 << iota
 )
 
-func Ascii(flag asciiflag) (r io.RuneReader, err error) {
+func Ascii(flag AsciiFlag) (r io.RuneReader, err error) {
 	chain, err := newChain()
 	if err != nil {
 		return
